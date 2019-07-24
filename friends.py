@@ -5,7 +5,7 @@ from config import FIELDS_FRIENDS as fields_f
 from datetime import date, datetime
 
 
-def retrieval_data(version, token, user_ids):
+def get_id(version, token, user_ids):
     response = requests.get('https://api.vk.com/method/users.get',
                             params={
                                 'v': version,
@@ -42,13 +42,13 @@ def calc_age(version, token, uid, fields_f):
     for key in calc_dict:
         temp = (key, calc_dict[key])
         calc_list.append(temp)
-    return sorted(calc_list, key=lambda x: (-x[1], int(x[0])))   # сортировка, сначала по 1му потом по 2му
+    return sorted(calc_list, key=lambda x: (-x[1], int(x[0])))   # сортировка, сначала по количеству потом по возрасту
 
 
 if __name__ == '__main__':
     user_ids = 'default_derevnya'
-    data = retrieval_data(version, token, user_ids)
-    res = calc_age(version, token, data, fields_f)
+    uid = get_id(version, token, user_ids)
+    res = calc_age(version, token, uid, fields_f)
     print(date.today().year)
-    print(retrieval_data(version, token, user_ids))
+    print(get_id(version, token, user_ids))
     print(res)
